@@ -20,6 +20,12 @@
     "doctrine/lexer": {
         "version": "1.2.1"
     },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
+    "lcobucci/jwt": {
+        "version": "4.1.4"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
@@ -89,6 +95,9 @@
         "version": "1.1.1"
     },
     "psr/event-dispatcher": {
+        "version": "1.0.0"
+    },
+    "psr/link": {
         "version": "1.0.0"
     },
     "psr/log": {
@@ -252,6 +261,21 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/mercure": {
+        "version": "v0.5.3"
+    },
+    "symfony/mercure-bundle": {
+        "version": "0.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "0.3",
+            "ref": "d1cdff3ae53bf6a5cbfb088c82f26032bdc14cc3"
+        },
+        "files": [
+            "config/packages/mercure.yaml"
+        ]
+    },
     "symfony/options-resolver": {
         "version": "v5.2.12"
     },
@@ -363,6 +387,9 @@
     },
     "symfony/var-exporter": {
         "version": "v5.2.7"
+    },
+    "symfony/web-link": {
+        "version": "v5.2.12"
     },
     "symfony/webpack-encore-bundle": {
         "version": "1.9",

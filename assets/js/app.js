@@ -1,12 +1,13 @@
 // assets/js/app.js
 import Vue from 'vue';
 
-import Component from './components/Component'
+import Confettis from './components/Confettis'
+import Coins from './components/Coins'
 
 /**
  * Create a fresh Vue Application instance
  */
 new Vue({
     el: '#app',
-    components: {Component}
+    components: {Confettis, Coins}
 });

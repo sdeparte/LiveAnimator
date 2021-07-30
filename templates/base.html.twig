@@ -6,6 +6,14 @@
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <style>
+                html, body {
+                    margin: 0;
+                    padding: 0;
+                    height: 100%;
+                    width: 100%;
+                }
+            </style>
         {% endblock %}
 
         {% block javascripts %}
