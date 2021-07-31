@@ -19,64 +19,75 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class EventController extends AbstractController
 {
+    const MERCURE_TOPIC = 'http://example.com/events';
+
+    const SUBSCRIBE_EVENT_TYPE = 'subscribe';
+    const DONATION_EVENT_TYPE = 'donation';
+
     /**
-     * @Route("/confettis", name="api_confettis", methods={"GET"})
+     * @Route("/subscribe", name="api_subscribe", methods={"GET"})
      *
      * @SWG\Parameter(
      *     name="username",
      *     in="query",
-     *     description="Username of the new follower."
+     *     description="Username of the subscriber."
      * )
      * @SWG\Response(
      *     response=200,
-     *     description="Return ...",
+     *     description="Return the mercure event id.",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Property(property="value", type="string", example="123,456")
+     *         @SWG\Property(property="uuid", type="string", example="123-abc")
      *     )
      * )
      * @SWG\Tag(name="Events")
      */
-    public function confettis(HubInterface $hub, Request $request): Response
+    public function subscribe(HubInterface $hub, Request $request): Response
     {
-        $update = new Update(
-            'http://example.com/confettis',
-            json_encode(['username' => $request->get('username')])
-        );
+        $params = [
+            'type' => self::SUBSCRIBE_EVENT_TYPE,
+            'username' => $request->get('username'),
+        ];
 
-        $result = $hub->publish($update);
+        $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
 
-        return $this->json([$result]);
+        return $this->json(['uuid' => $result]);
     }
 
     /**
-     * @Route("/coins", name="api_coins", methods={"GET"})
+     * @Route("/donation", name="api_donation", methods={"GET"})
      *
      * @SWG\Parameter(
      *     name="username",
      *     in="query",
-     *     description="Username of the new follower."
+     *     description="Username of the donator."
+     * )
+     * @SWG\Parameter(
+     *     name="amount",
+     *     in="query",
+     *     description="Amount of the donation."
      * )
      * @SWG\Response(
      *     response=200,
-     *     description="Return ...",
+     *     description="Return the mercure event id.",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Property(property="value", type="string", example="123,456")
+     *         @SWG\Property(property="uuid", type="string", example="123-abc")
      *     )
      * )
      * @SWG\Tag(name="Events")
      */
-    public function coins(HubInterface $hub, Request $request): Response
+    public function donation(HubInterface $hub, Request $request): Response
     {
-        $update = new Update(
-            'http://example.com/coins',
-            json_encode(['username' => $request->get('username')])
-        );
+        $params = [
+            'type' => self::DONATION_EVENT_TYPE,
+            'username' => $request->get('username'),
+            'amount' => $request->get('amount'),
+        ];
 
-        $result = $hub->publish($update);
+        $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
 
-        return $this->json([$result]);
+        return $this->json(['uuid' => $result]);
     }
 
 }
