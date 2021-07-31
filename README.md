@@ -1,6 +1,6 @@
 Objectifs
 ----------
-[TODO]
+Permetre d'afficher des animations sur un live (via le panel "navigateur" d'OBS Studio) lors de diverses évènements (follow, abonnement, donation, etc).
 
 Prérequis
 ------------
@@ -12,8 +12,8 @@ Prérequis
 Installation
 ------------
 ```
-git clone git@github.com:sdeparte/mercurePoc.git
-cd mercurePoc
+git clone git@github.com:sdeparte/LiveAnimator.git
+cd LiveAnimator
 composer install
 yarn install
 ```
