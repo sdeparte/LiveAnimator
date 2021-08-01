@@ -21,8 +21,39 @@ class EventController extends AbstractController
 {
     const MERCURE_TOPIC = 'http://example.com/events';
 
+    const FOLLOW_EVENT_TYPE = 'follow';
     const SUBSCRIBE_EVENT_TYPE = 'subscribe';
     const DONATION_EVENT_TYPE = 'donation';
+
+    /**
+     * @Route("/follow", name="api_follow", methods={"GET"})
+     *
+     * @SWG\Parameter(
+     *     name="username",
+     *     in="query",
+     *     description="Username of the follower."
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return the mercure event id.",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Property(property="uuid", type="string", example="123-abc")
+     *     )
+     * )
+     * @SWG\Tag(name="Events")
+     */
+    public function follow(HubInterface $hub, Request $request): Response
+    {
+        $params = [
+            'type' => self::FOLLOW_EVENT_TYPE,
+            'username' => $request->get('username'),
+        ];
+
+        $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
+
+        return $this->json(['uuid' => $result]);
+    }
 
     /**
      * @Route("/subscribe", name="api_subscribe", methods={"GET"})

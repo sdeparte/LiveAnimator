@@ -2,6 +2,7 @@
   <div id="animation" class="hidden">
     <canvas height="1" id="confettis" width="1"></canvas>
     <canvas height="1" id="coins" width="1"></canvas>
+    <canvas height="1" id="firework" width="1"></canvas>
     <div id="username">
       <div v-html="message"></div>
     </div>
@@ -11,11 +12,12 @@
 <script>
 import Confettis from "../classes/Confettis";
 import Coins from "../classes/Coins";
+import Firework from "../classes/Firework";
 
 export default {
   name: "animations",
   data() {
-    return {message: '', confettis: null, coins: null, animationIsRunning: false, nextEventRecieved: []}
+    return {message: '', confettis: null, coins: null, firework: null, animationIsRunning: false, nextEventRecieved: []}
   },
   mounted() {
     this.init();
@@ -24,6 +26,7 @@ export default {
     init() {
       this.confettis = new Confettis("confettis");
       this.coins = new Coins("coins");
+      this.firework = new Firework("firework");
 
       const url = new URL("/.well-known/mercure", window.origin);
       url.searchParams.append('topic', "http://example.com/events");
@@ -42,6 +45,22 @@ export default {
         document.getElementById("animation").className = "";
 
         switch (data.type) {
+          case 'follow':
+            this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ton follow !";
+
+            this.firework.start();
+
+            setTimeout(function () {
+              document.getElementById("animation").className = "hidden";
+
+              setTimeout(function () {
+                this.firework.stop();
+
+                this.animateNext();
+              }.bind(this), 1000);
+            }.bind(this), 5000);
+
+            break;
           case 'subscribe':
             this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ton abonnement !";
 
@@ -52,6 +71,7 @@ export default {
 
               setTimeout(function () {
                 this.confettis.stop();
+
                 this.animateNext();
               }.bind(this), 1000);
             }.bind(this), 5000);
@@ -66,6 +86,7 @@ export default {
 
               setTimeout(function () {
                 this.coins.stop();
+
                 this.animateNext();
               }.bind(this), 1000);
             }.bind(this), 5000);
@@ -95,6 +116,7 @@ export default {
     height: 100%;
     width: 100%;
     overflow: hidden;
+    background: linear-gradient(0deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 25%);
 
     transition: opacity 1s ease-in-out;
   }

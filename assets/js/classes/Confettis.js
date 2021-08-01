@@ -14,10 +14,10 @@ export default class Confettis {
     ribbonPaperThick = 16.0;
     confettiPaperCount = 95;
     colors = [
-        ["#df0049", "#660671"],
-        ["#00e857", "#005291"],
-        ["#2bebbc", "#05798a"],
-        ["#ffd200", "#b06c00"]
+        ["#ff9ff3", "#f368e0"],
+        ["#1dd1a1", "#10ac84"],
+        ["#ff6b6b", "#ee5253"],
+        ["#feca57", "#ff9f43"]
     ];
 
     interval = null;
