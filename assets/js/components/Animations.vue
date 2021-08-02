@@ -1,8 +1,13 @@
 <template>
-  <div id="animation" class="hidden">
+  <div id="animation" v-bind:class="{ hidden: isHidden }">
     <canvas height="1" id="confettis" width="1"></canvas>
     <canvas height="1" id="coins" width="1"></canvas>
     <canvas height="1" id="firework" width="1"></canvas>
+    <div class='app' v-bind:class="{ hidden: rayCount === 0 }">
+      <div v-for="n in rayCount" class='container'>
+        <div class='star'></div>
+      </div>
+    </div>
     <div id="username">
       <div v-html="message"></div>
     </div>
@@ -17,7 +22,7 @@ import Firework from "../classes/Firework";
 export default {
   name: "animations",
   data() {
-    return {message: '', confettis: null, coins: null, firework: null, animationIsRunning: false, nextEventRecieved: []}
+    return {isHidden: true, message: '', confettis: null, coins: null, firework: null, rayCount: 0, animationIsRunning: false, nextEventRecieved: []}
   },
   mounted() {
     this.init();
@@ -42,7 +47,7 @@ export default {
       } else {
         this.animationIsRunning = true;
 
-        document.getElementById("animation").className = "";
+        this.isHidden = false;
 
         switch (data.type) {
           case 'follow':
@@ -51,7 +56,7 @@ export default {
             this.firework.start();
 
             setTimeout(function () {
-              document.getElementById("animation").className = "hidden";
+              this.isHidden = true;
 
               setTimeout(function () {
                 this.firework.stop();
@@ -67,7 +72,7 @@ export default {
             this.confettis.start();
 
             setTimeout(function () {
-              document.getElementById("animation").className = "hidden";
+              this.isHidden = true;
 
               setTimeout(function () {
                 this.confettis.stop();
@@ -82,10 +87,25 @@ export default {
             this.coins.start();
 
             setTimeout(function () {
-              document.getElementById('animation').className = 'hidden';
+              this.isHidden = true;
 
               setTimeout(function () {
                 this.coins.stop();
+
+                this.animateNext();
+              }.bind(this), 1000);
+            }.bind(this), 5000);
+
+            break;
+          case 'raid':
+            this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour le raid !";
+            this.rayCount = 360;
+
+            setTimeout(function () {
+              this.isHidden = true;
+
+              setTimeout(function () {
+                this.rayCount = 0;
 
                 this.animateNext();
               }.bind(this), 1000);
@@ -108,7 +128,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import '../../scss/raid.scss';
+
+  .hidden {
+    opacity: 0;
+  }
+
   #animation {
     position: absolute;
     left: 0;
@@ -119,10 +145,6 @@ export default {
     background: linear-gradient(0deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 25%);
 
     transition: opacity 1s ease-in-out;
-  }
-
-  #animation.hidden {
-    opacity: 0;
   }
 
   #animation > canvas {

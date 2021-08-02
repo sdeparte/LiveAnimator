@@ -54,6 +54,9 @@ Encore
 
     // enables Vue.js
     .enableVueLoader()
+
+    // enables processes files ending in .scss or .sass
+    .enableSassLoader()
 ;
 
 module.exports = Encore.getWebpackConfig();

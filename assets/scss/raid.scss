@@ -1,0 +1,71 @@
+$nb-star: 360;
+
+$width-center: 750px;
+
+$width-star-max: 1000px;
+$width-star-min: 500px;
+
+$r: $width-star-max - $width-star-min + 1;
+
+$animation-speed: 3000ms;
+$colors: #ee5253, #feca57, #1dd1a1, #5f27cd, #48dbfb;
+
+body {
+  overflow: hidden;
+}
+.app {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(rgba(255, 255, 255, 0) 25%, #ffffff);
+  .container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    transform-origin: left 50%;
+    .star {
+      opacity: 0;
+      border-radius: 100px;
+      background-color: white;
+      animation-name: hyperspace;
+      animation-duration: $animation-speed;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+  }
+}
+
+@for $i from 0 through $nb-star {
+  .container:nth-child(#{$i}) {
+    .star {
+      animation-delay: #{random($animation-speed)}ms;
+      $colorKey: random(5);
+      background-color: nth($colors, $colorKey);
+      width: 0;
+      height: 5px;
+    }
+    transform: rotate(0deg + random(360));
+  }
+}
+
+@keyframes hyperspace {
+  0% {
+    margin-left: 0px;
+  }
+  5% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    width: random($r) + $width-star-min - 1;
+  }
+  100% {
+    margin-left: 100%;
+    height: 200px;
+  }
+}

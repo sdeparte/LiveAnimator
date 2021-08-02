@@ -24,6 +24,7 @@ class EventController extends AbstractController
     const FOLLOW_EVENT_TYPE = 'follow';
     const SUBSCRIBE_EVENT_TYPE = 'subscribe';
     const DONATION_EVENT_TYPE = 'donation';
+    const RAID_EVENT_TYPE = 'raid';
 
     /**
      * @Route("/follow", name="api_follow", methods={"GET"})
@@ -121,4 +122,33 @@ class EventController extends AbstractController
         return $this->json(['uuid' => $result]);
     }
 
+    /**
+     * @Route("/raid", name="api_raid", methods={"GET"})
+     *
+     * @SWG\Parameter(
+     *     name="username",
+     *     in="query",
+     *     description="Username of the donator."
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return the mercure event id.",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Property(property="uuid", type="string", example="123-abc")
+     *     )
+     * )
+     * @SWG\Tag(name="Events")
+     */
+    public function raid(HubInterface $hub, Request $request): Response
+    {
+        $params = [
+            'type' => self::RAID_EVENT_TYPE,
+            'username' => $request->get('username'),
+        ];
+
+        $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
+
+        return $this->json(['uuid' => $result]);
+    }
 }
