@@ -128,7 +128,7 @@ class EventController extends AbstractController
      * @SWG\Parameter(
      *     name="username",
      *     in="query",
-     *     description="Username of the donator."
+     *     description="Username of the raid initiator."
      * )
      * @SWG\Response(
      *     response=200,
