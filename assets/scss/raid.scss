@@ -10,9 +10,6 @@ $r: $width-star-max - $width-star-min + 1;
 $animation-speed: 3000ms;
 $colors: #ee5253, #feca57, #1dd1a1, #5f27cd, #48dbfb;
 
-body {
-  overflow: hidden;
-}
 .app {
   position: absolute;
   width: 100%;
