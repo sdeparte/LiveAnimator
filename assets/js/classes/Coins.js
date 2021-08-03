@@ -14,7 +14,7 @@ export default class Coins {
         this.canvas.height = canvasParent.offsetHeight * this.retina;
 
         this.coin = new Image();
-        this.coin.src = 'http://i.imgur.com/5ZW2MT3.png';
+        this.coin.src = '/imgs/coins.png';
 
         this.coin.onload = function () {
             this.loaded = true;
@@ -53,7 +53,7 @@ export default class Coins {
                     x: Math.random() * this.canvas.width | 0,
                     y: -50,
                     dy: 3,
-                    s: 0.5 + Math.random(),
+                    s: 0.25 + Math.random(),
                     state: Math.random() * 10 | 0
                 });
             }
@@ -70,7 +70,7 @@ export default class Coins {
                 this.coins[i].dy += 0.05;
                 this.coins[i].y += this.coins[i].dy;
 
-                this.context.drawImage(this.coin, 44 * Math.floor(state), 0, 44, 40, x, y, 44 * s, 40 * s);
+                this.context.drawImage(this.coin, 110 * Math.floor(state), 0, 100, 100, x, y, 110 * s, 100 * s);
 
                 if (y > this.canvas.height) {
                     this.coins.splice(i, 1);

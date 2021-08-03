@@ -64,6 +64,21 @@ class EventController extends AbstractController
      *     in="query",
      *     description="Username of the subscriber."
      * )
+     * @SWG\Parameter(
+     *     name="isPrime",
+     *     in="query",
+     *     description="Subscription type is 'Prime'."
+     * )
+     * @SWG\Parameter(
+     *     name="isGift",
+     *     in="query",
+     *     description="Subscription type is a gift."
+     * )
+     * @SWG\Parameter(
+     *     name="recipient",
+     *     in="query",
+     *     description="Is a gift for ?"
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Return the mercure event id.",
@@ -79,6 +94,9 @@ class EventController extends AbstractController
         $params = [
             'type' => self::SUBSCRIBE_EVENT_TYPE,
             'username' => $request->get('username'),
+            'isPrime' => $request->get('isPrime'),
+            'isGift' => $request->get('isGift'),
+            'recipient' => $request->get('recipient'),
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
@@ -130,6 +148,11 @@ class EventController extends AbstractController
      *     in="query",
      *     description="Username of the raid initiator."
      * )
+     * @SWG\Parameter(
+     *     name="viewers",
+     *     in="query",
+     *     description="Count of viewers in the raid."
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Return the mercure event id.",
@@ -145,6 +168,7 @@ class EventController extends AbstractController
         $params = [
             'type' => self::RAID_EVENT_TYPE,
             'username' => $request->get('username'),
+            'viewers' => $request->get('viewers'),
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));

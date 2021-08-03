@@ -67,7 +67,13 @@ export default {
 
             break;
           case 'subscribe':
-            this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ton abonnement !";
+            if (data.isPrime) {
+              this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ton abonnement \"Prime\" !";
+            } if (data.isGift) {
+              this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> d'avoir offert un abonnement à <span style=\"font-weight: bold;\">" + data.recipient + "</span> !";
+            } else {
+              this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ton abonnement !";
+            }
 
             this.confettis.start();
 
@@ -98,7 +104,7 @@ export default {
 
             break;
           case 'raid':
-            this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour le raid !";
+            this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour le raid de <span style=\"font-weight: bold;\">" + data.viewers + "</span> viewer(s) !";
             this.rayCount = 360;
 
             setTimeout(function () {
