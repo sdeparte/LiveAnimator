@@ -33,7 +33,7 @@ export default {
       this.coins = new Coins("coins");
       this.firework = new Firework("firework");
 
-      const url = new URL("/.well-known/mercure", window.origin);
+      const url = new URL(process.env.MERCURE_PUBLIC_URL, window.origin);
       url.searchParams.append('topic', "http://example.com/events");
 
       const eventSource = new EventSource(url);
