@@ -6,13 +6,18 @@ security:
         in_memory:
             memory:
                 users:
-                    admin:
-                        password: '$argon2id$v=19$m=65536,t=4,p=1$UYz0OqBqDOnvRH635kgHxA$KRy3ATlCygbz7Y/CDs3Xn4MXn6ilX8TkYruCIU4ZlY8'
+                    '%env(API_USERNAME)%':
+                        password: '%env(API_PASSWORD)%'
                         roles: ['ROLE_API']
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api-doc:
+            anonymous: ~
+            http_basic: ~
+            pattern: ^/api/doc(.json)?
         main:
             anonymous: ~
             stateless: true
@@ -28,6 +33,6 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        - { path: ^/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: ROLE_API }
+        - { path: ^/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
