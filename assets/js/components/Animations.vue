@@ -36,7 +36,7 @@ export default {
       const url = new URL(process.env.MERCURE_PUBLIC_URL, window.origin);
       url.searchParams.append('topic', "http://example.com/events");
 
-      const eventSource = new EventSource(url);
+      const eventSource = new EventSource(url, {withCredentials: true});
       eventSource.onmessage = event => {
         this.animate(JSON.parse(event.data));
       }
