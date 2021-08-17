@@ -17,13 +17,13 @@ security:
         api-doc:
             anonymous: ~
             http_basic: ~
-            pattern: ^/api/doc(.json)?
+            pattern: ^/api/doc(.json)?$
         main:
             anonymous: ~
             stateless: true
             provider: in_memory
             json_login:
-                check_path: /authentication_token
+                check_path: /api/login_check
                 username_path: username
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
@@ -33,6 +33,6 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
+        - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: ROLE_API }
-        - { path: ^/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

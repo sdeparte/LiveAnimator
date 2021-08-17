@@ -14,3 +14,18 @@ nelmio_api_doc:
           bearerFormat: JWT
     security:
       - Bearer: []
+
+    paths:
+      /api/login_check:
+        post:
+          requestBody:
+            description: Optional description in *Markdown*
+            required: true
+            content:
+              application/json:
+                schema:
+                  properties:
+                    username:
+                      type: string
+                    password:
+                      type: string

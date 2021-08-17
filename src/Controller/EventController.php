@@ -32,7 +32,7 @@ class EventController extends AbstractController
      *
      * @SWG\Parameter(
      *     name="username",
-     *     in="query",
+     *     in="path",
      *     description="Username of the follower."
      * )
      * @SWG\Response(
@@ -63,22 +63,22 @@ class EventController extends AbstractController
      *
      * @SWG\Parameter(
      *     name="username",
-     *     in="query",
+     *     in="path",
      *     description="Username of the subscriber."
      * )
      * @SWG\Parameter(
      *     name="isPrime",
-     *     in="query",
+     *     in="path",
      *     description="Subscription type is 'Prime'."
      * )
      * @SWG\Parameter(
      *     name="isGift",
-     *     in="query",
+     *     in="path",
      *     description="Subscription type is a gift."
      * )
      * @SWG\Parameter(
      *     name="recipient",
-     *     in="query",
+     *     in="path",
      *     description="Is a gift for ?"
      * )
      * @SWG\Response(
@@ -112,12 +112,12 @@ class EventController extends AbstractController
      *
      * @SWG\Parameter(
      *     name="username",
-     *     in="query",
+     *     in="path",
      *     description="Username of the donator."
      * )
      * @SWG\Parameter(
      *     name="amount",
-     *     in="query",
+     *     in="path",
      *     description="Amount of the donation."
      * )
      * @SWG\Response(
@@ -149,12 +149,12 @@ class EventController extends AbstractController
      *
      * @SWG\Parameter(
      *     name="username",
-     *     in="query",
+     *     in="path",
      *     description="Username of the raid initiator."
      * )
      * @SWG\Parameter(
      *     name="viewers",
-     *     in="query",
+     *     in="path",
      *     description="Count of viewers in the raid."
      * )
      * @SWG\Response(
