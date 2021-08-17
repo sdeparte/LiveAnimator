@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Services\BitcoinService;
 use App\Services\RandomService;
+use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class EventController extends AbstractController
     const RAID_EVENT_TYPE = 'raid';
 
     /**
-     * @Route("/follow", name="api_follow", methods={"GET"})
+     * @Route("/follow", name="api_follow", methods={"POST"})
      *
      * @SWG\Parameter(
      *     name="username",
@@ -43,6 +44,7 @@ class EventController extends AbstractController
      *     )
      * )
      * @SWG\Tag(name="Events")
+     * @Security(name="Bearer")
      */
     public function follow(HubInterface $hub, Request $request): Response
     {
@@ -57,7 +59,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/subscribe", name="api_subscribe", methods={"GET"})
+     * @Route("/subscribe", name="api_subscribe", methods={"POST"})
      *
      * @SWG\Parameter(
      *     name="username",
@@ -88,6 +90,7 @@ class EventController extends AbstractController
      *     )
      * )
      * @SWG\Tag(name="Events")
+     * @Security(name="Bearer")
      */
     public function subscribe(HubInterface $hub, Request $request): Response
     {
@@ -105,7 +108,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/donation", name="api_donation", methods={"GET"})
+     * @Route("/donation", name="api_donation", methods={"POST"})
      *
      * @SWG\Parameter(
      *     name="username",
@@ -126,6 +129,7 @@ class EventController extends AbstractController
      *     )
      * )
      * @SWG\Tag(name="Events")
+     * @Security(name="Bearer")
      */
     public function donation(HubInterface $hub, Request $request): Response
     {
@@ -141,7 +145,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/raid", name="api_raid", methods={"GET"})
+     * @Route("/raid", name="api_raid", methods={"POST"})
      *
      * @SWG\Parameter(
      *     name="username",
@@ -162,6 +166,7 @@ class EventController extends AbstractController
      *     )
      * )
      * @SWG\Tag(name="Events")
+     * @Security(name="Bearer")
      */
     public function raid(HubInterface $hub, Request $request): Response
     {

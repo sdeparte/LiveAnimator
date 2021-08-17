@@ -5,3 +5,12 @@ nelmio_api_doc:
   documentation:
     info:
       version: 1.0.0
+    components:
+      securitySchemes:
+        Bearer:
+          description: 'Authorization: Bearer {value}'
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+    security:
+      - Bearer: []
