@@ -2,11 +2,12 @@
 import Vue from 'vue';
 
 import Animations from "./components/Animations";
+import WhatTheSong from "./components/WhatTheSong";
 
 /**
  * Create a fresh Vue Application instance
  */
 new Vue({
     el: '#app',
-    components: {Animations}
+    components: {Animations, WhatTheSong}
 });

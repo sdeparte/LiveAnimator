@@ -26,6 +26,7 @@ class EventController extends AbstractController
     const SUBSCRIBE_EVENT_TYPE = 'subscribe';
     const DONATION_EVENT_TYPE = 'donation';
     const RAID_EVENT_TYPE = 'raid';
+    const MUSIC_EVENT_TYPE = 'music';
 
     /**
      * @Route("/follow", name="api_follow", methods={"POST"})
@@ -174,6 +175,55 @@ class EventController extends AbstractController
             'type' => self::RAID_EVENT_TYPE,
             'username' => $request->get('username'),
             'viewers' => $request->get('viewers'),
+        ];
+
+        $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
+
+        return $this->json(['uuid' => $result]);
+    }
+
+    /**
+     * @Route("/music", name="api_music", methods={"POST"})
+     *
+     * @SWG\RequestBody(
+     *     required=true,
+     *     @SWG\JsonContent(
+     *         example={
+     *             "author": "Sylvain D",
+     *             "song": "The silence",
+     *             "albumImg": "https://www.formica.com/fr-fr/-/media/formica/emea/products/swatch-images/f2253/f2253-swatch.jpg",
+     *             "noSound": false
+     *         },
+     *         @SWG\Schema (
+     *              type="object",
+     *              @SWG\Property(property="author", required=true, description="Author of the current music", type="string"),
+     *              @SWG\Property(property="song", required=true, description="Title of the current music", type="string"),
+     *              @SWG\Property(property="albumImg", required=true, description="Album image of the current music", type="string"),
+     *              @SWG\Property(property="noSound", required=true, description="Hide/Show sound bars", type="boolean")
+     *         )
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return the mercure event id.",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Property(property="uuid", type="string", example="123-abc")
+     *     )
+     * )
+     * @SWG\Tag(name="Events")
+     * @Security(name="Bearer")
+     */
+    public function music(HubInterface $hub, Request $request): Response
+    {
+	$body = json_decode($request->getContent(), true);
+
+        $params = [
+            'type' => self::MUSIC_EVENT_TYPE,
+            'albumImg' => $body['base64'],
+            'author' => $body['author'],
+	    'song' => $body['song'],
+	    'noSound' => $body['noSound'],
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
