@@ -45,12 +45,12 @@ export default {
       if (this.animationIsRunning) {
         this.nextEventRecieved.push(data);
       } else {
-        this.animationIsRunning = true;
-
-        this.isHidden = false;
-
         switch (data.type) {
           case 'follow':
+            this.animationIsRunning = true;
+
+            this.isHidden = false;
+
             this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ton follow !";
 
             this.firework.start();
@@ -66,7 +66,12 @@ export default {
             }.bind(this), 5000);
 
             break;
+
           case 'subscribe':
+            this.animationIsRunning = true;
+
+            this.isHidden = false;
+
             if (data.isPrime) {
               this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ton abonnement \"Prime\" !";
             } if (data.isGift) {
@@ -88,7 +93,12 @@ export default {
             }.bind(this), 5000);
 
             break;
+
           case 'donation':
+            this.animationIsRunning = true;
+
+            this.isHidden = false;
+
             this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ta donation de <span style=\"font-weight: bold;\">" + data.amount + "</span> !";
             this.coins.start();
 
@@ -103,7 +113,12 @@ export default {
             }.bind(this), 5000);
 
             break;
+
           case 'raid':
+            this.animationIsRunning = true;
+
+            this.isHidden = false;
+
             this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour le raid de <span style=\"font-weight: bold;\">" + data.viewers + "</span> viewer(s) !";
             this.rayCount = 360;
 
