@@ -31,10 +31,17 @@ class EventController extends AbstractController
     /**
      * @Route("/follow", name="api_follow", methods={"POST"})
      *
-     * @SWG\Parameter(
-     *     name="username",
-     *     in="query",
-     *     description="Username of the follower."
+     * @SWG\RequestBody(
+     *     required=true,
+     *     @SWG\JsonContent(
+     *         example={
+     *             "username": "sdeparte"
+     *         },
+     *         @SWG\Schema (
+     *              type="object",
+     *              @SWG\Property(property="username", required=true, description="Username of the follower", type="string")
+     *         )
+     *     )
      * )
      * @SWG\Response(
      *     response=200,
@@ -49,9 +56,11 @@ class EventController extends AbstractController
      */
     public function follow(HubInterface $hub, Request $request): Response
     {
+        $body = json_decode($request->getContent(), true);
+
         $params = [
             'type' => self::FOLLOW_EVENT_TYPE,
-            'username' => $request->get('username'),
+            'username' => $body['username'],
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
@@ -62,25 +71,23 @@ class EventController extends AbstractController
     /**
      * @Route("/subscribe", name="api_subscribe", methods={"POST"})
      *
-     * @SWG\Parameter(
-     *     name="username",
-     *     in="query",
-     *     description="Username of the subscriber."
-     * )
-     * @SWG\Parameter(
-     *     name="isPrime",
-     *     in="formData",
-     *     description="Subscription type is 'Prime'."
-     * )
-     * @SWG\Parameter(
-     *     name="isGift",
-     *     in="query",
-     *     description="Subscription type is a gift."
-     * )
-     * @SWG\Parameter(
-     *     name="recipient",
-     *     in="query",
-     *     description="Is a gift for ?"
+     * @SWG\RequestBody(
+     *     required=true,
+     *     @SWG\JsonContent(
+     *         example={
+     *             "username": "sdeparte",
+     *             "isPrime": false,
+     *             "isGift": true,
+     *             "recipient": "anotherUser"
+     *         },
+     *         @SWG\Schema (
+     *              type="object",
+     *              @SWG\Property(property="username", required=true, description="Username of the subscriber", type="string"),
+     *              @SWG\Property(property="isPrime", required=true, description="Subscription type is 'Prime'", type="boolean"),
+     *              @SWG\Property(property="isGift", required=true, description="Subscription type is a gift", type="boolean"),
+     *              @SWG\Property(property="recipient", description="Is a gift for ?", type="string")
+     *         )
+     *     )
      * )
      * @SWG\Response(
      *     response=200,
@@ -95,12 +102,14 @@ class EventController extends AbstractController
      */
     public function subscribe(HubInterface $hub, Request $request): Response
     {
+        $body = json_decode($request->getContent(), true);
+
         $params = [
             'type' => self::SUBSCRIBE_EVENT_TYPE,
-            'username' => $request->get('username'),
-            'isPrime' => $request->get('isPrime'),
-            'isGift' => $request->get('isGift'),
-            'recipient' => $request->get('recipient'),
+            'username' => $body['username'],
+            'isPrime' => $body['isPrime'],
+            'isGift' => $body['isGift'],
+            'recipient' => $body['recipient'],
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
@@ -111,15 +120,19 @@ class EventController extends AbstractController
     /**
      * @Route("/donation", name="api_donation", methods={"POST"})
      *
-     * @SWG\Parameter(
-     *     name="username",
-     *     in="query",
-     *     description="Username of the donator."
-     * )
-     * @SWG\Parameter(
-     *     name="amount",
-     *     in="query",
-     *     description="Amount of the donation."
+     * @SWG\RequestBody(
+     *     required=true,
+     *     @SWG\JsonContent(
+     *         example={
+     *             "username": "sdeparte",
+     *             "amount": "50 coins"
+     *         },
+     *         @SWG\Schema (
+     *              type="object",
+     *              @SWG\Property(property="username", required=true, description="Username of the donator", type="string"),
+     *              @SWG\Property(property="amount", required=true, description="Amount of the donation (with currency)", type="string")
+     *         )
+     *     )
      * )
      * @SWG\Response(
      *     response=200,
@@ -134,10 +147,12 @@ class EventController extends AbstractController
      */
     public function donation(HubInterface $hub, Request $request): Response
     {
+        $body = json_decode($request->getContent(), true);
+
         $params = [
             'type' => self::DONATION_EVENT_TYPE,
-            'username' => $request->get('username'),
-            'amount' => $request->get('amount'),
+            'username' => $body['username'],
+            'amount' => $body['amount'],
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
@@ -148,15 +163,19 @@ class EventController extends AbstractController
     /**
      * @Route("/raid", name="api_raid", methods={"POST"})
      *
-     * @SWG\Parameter(
-     *     name="username",
-     *     in="query",
-     *     description="Username of the raid initiator."
-     * )
-     * @SWG\Parameter(
-     *     name="viewers",
-     *     in="query",
-     *     description="Count of viewers in the raid."
+     * @SWG\RequestBody(
+     *     required=true,
+     *     @SWG\JsonContent(
+     *         example={
+     *             "username": "sdeparte",
+     *             "viewers": 50
+     *         },
+     *         @SWG\Schema (
+     *              type="object",
+     *              @SWG\Property(property="username", required=true, description="Username of the raid initiator", type="string"),
+     *              @SWG\Property(property="viewers", required=true, description="Count of viewers in the raid", type="integer")
+     *         )
+     *     )
      * )
      * @SWG\Response(
      *     response=200,
@@ -171,10 +190,12 @@ class EventController extends AbstractController
      */
     public function raid(HubInterface $hub, Request $request): Response
     {
+        $body = json_decode($request->getContent(), true);
+
         $params = [
             'type' => self::RAID_EVENT_TYPE,
-            'username' => $request->get('username'),
-            'viewers' => $request->get('viewers'),
+            'username' => $body['username'],
+            'viewers' => $body['viewers'],
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
@@ -220,7 +241,7 @@ class EventController extends AbstractController
 
         $params = [
             'type' => self::MUSIC_EVENT_TYPE,
-            'albumImg' => $body['base64'],
+            'albumImg' => $body['albumImg'],
             'author' => $body['author'],
 	    'song' => $body['song'],
 	    'noSound' => $body['noSound'],
