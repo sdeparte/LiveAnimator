@@ -64,7 +64,7 @@ export default {
       if (data.type == 'music') {
         this.author = '';
         this.song = '';
-        this.noSound = data.noSound === 'true';
+        this.noSound = data.noSound;
 
         document.getElementById("myPlayer").classList.add('diskChanging');
 
