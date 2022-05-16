@@ -1,6 +1,6 @@
 <template>
 <div class="player">
-    <div id="myPlayer" class="player__card">
+    <div class="player__card" :class="{ 'disk-changing': diskChanging }">
         <div class="player__album rotating">
             <div class="player__albumImg" :style="{backgroundImage:`url(${albumImg})`}"></div>           
         </div>
@@ -65,8 +65,7 @@ export default {
         this.author = '';
         this.song = '';
         this.noSound = data.noSound;
-
-        document.getElementById("myPlayer").classList.add('diskChanging');
+        this.diskChanging = true;
 
         setTimeout(function() {
             this.albumImg = data.albumImg;
@@ -74,8 +73,7 @@ export default {
         setTimeout(function() {
             this.author = data.author;
             this.song = data.song;
-
-            document.getElementById("myPlayer").classList.remove('diskChanging');
+            this.diskChanging = false;
         }.bind(this), 1000);
       }
     },
@@ -138,11 +136,11 @@ export default {
     }
 }
 
-.player__card.diskChanging > .player__album {
+.player__card.disk-changing > .player__album {
     animation: changeDisk 1s ease-in-out;
 }
 
-.player__card.diskChanging > .player__bars > .player__bars__container,
+.player__card.disk-changing > .player__bars > .player__bars__container,
 .player__card > .player__bars > .player__bars__container.no-sound {
     transform: translateY(73px) scaleY(0);
     opacity: 0;
