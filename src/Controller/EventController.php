@@ -28,6 +28,8 @@ class EventController extends AbstractController
     const RAID_EVENT_TYPE = 'raid';
     const MUSIC_EVENT_TYPE = 'music';
     const MUSIC_NO_SOUND_EVENT_TYPE = 'music_no_sound';
+    const WORKOUT_EVENT_TYPE = 'workout';
+    const WORKOUT_PAUSE_EVENT_TYPE = 'workout_pause';
 
     /**
      * @Route("/follow", name="api_follow", methods={"POST"})
@@ -286,6 +288,104 @@ class EventController extends AbstractController
         $params = [
             'type' => self::MUSIC_NO_SOUND_EVENT_TYPE,
             'noSound' => $body['noSound'],
+        ];
+
+        $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
+
+        return $this->json(['uuid' => $result]);
+    }
+
+    /**
+     * @Route("/workout", name="api_workout", methods={"POST"})
+     *
+     * @SWG\RequestBody(
+     *     required=true,
+     *     @SWG\JsonContent(
+     *         example={
+     *             "trainingName": "Pectoraux",
+     *             "exerciceName": "Développé couché",
+     *             "exerciceNumber": 2,
+     *             "series": "2/4",
+     *             "repetitions": 10
+     *         },
+     *         @SWG\Schema (
+     *              type="object",
+     *              @SWG\Property(property="visible", required=true, description="Called on done", type="boolean"),
+     *              @SWG\Property(property="trainingName", description="Name of the current training", type="string"),
+     *              @SWG\Property(property="exerciceName", description="Name of the current exercice", type="string"),
+     *              @SWG\Property(property="exerciceNumber", description="Exercice position in the training", type="integer"),
+     *              @SWG\Property(property="series", description="Series position / Series total count", type="string", pattern="#^[0-9]+/[0-9]+$#"),
+     *              @SWG\Property(property="repetitions", description="Number of repetitions", type="integer"),
+     *              @SWG\Property(property="duration", description="Duration of the series or the rest pause (in seconds)", type="integer"),
+     *              @SWG\Property(property="isRest", description="If duration is set, it is a Rest Time or not ?", type="boolean")
+     *         )
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return the mercure event id.",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Property(property="uuid", type="string", example="123-abc")
+     *     )
+     * )
+     * @SWG\Tag(name="Events")
+     * @Security(name="Bearer")
+     */
+    public function workout(HubInterface $hub, Request $request): Response
+    {
+        $body = json_decode($request->getContent(), true);
+
+        $params = [
+            'type' => self::WORKOUT_EVENT_TYPE,
+            'visible' => $body['visible'],
+            'trainingName' => $body['trainingName'] ?? null,
+            'exerciceName' => $body['exerciceName'] ?? null,
+            'exerciceNumber' => $body['exerciceNumber'] ?? null,
+            'series' => $body['series'] ?? null,
+            'repetitions' => $body['repetitions'] ?? null,
+            'duration' => $body['duration'] ?? null,
+            'isRest' => $body['isRest'] ?? null,
+        ];
+
+        $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
+
+        return $this->json(['uuid' => $result]);
+    }
+
+    /**
+     * @Route("/workout/pause", name="api_workout_pause", methods={"POST"})
+     *
+     * @SWG\RequestBody(
+     *     required=true,
+     *     @SWG\JsonContent(
+     *         example={
+     *             "pause": true
+     *         },
+     *         @SWG\Schema (
+     *              type="object",
+     *              @SWG\Property(property="pause", required=true, description="Pause Workout timer", type="boolean")
+     *         )
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return the mercure event id.",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Property(property="uuid", type="string", example="123-abc")
+     *     )
+     * )
+     * @SWG\Tag(name="Events")
+     * @Security(name="Bearer")
+     */
+    public function workoutPause(HubInterface $hub, Request $request): Response
+    {
+        $body = json_decode($request->getContent(), true);
+
+        $params = [
+            'type' => self::WORKOUT_PAUSE_EVENT_TYPE,
+            'pause' => $body['pause'],
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
