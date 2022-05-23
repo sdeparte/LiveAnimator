@@ -27,6 +27,7 @@ class EventController extends AbstractController
     const DONATION_EVENT_TYPE = 'donation';
     const RAID_EVENT_TYPE = 'raid';
     const MUSIC_EVENT_TYPE = 'music';
+    const MUSIC_NO_SOUND_EVENT_TYPE = 'music_no_sound';
 
     /**
      * @Route("/follow", name="api_follow", methods={"POST"})
@@ -245,6 +246,46 @@ class EventController extends AbstractController
             'author' => $body['author'],
 	    'song' => $body['song'],
 	    'noSound' => $body['noSound'],
+        ];
+
+        $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));
+
+        return $this->json(['uuid' => $result]);
+    }
+
+    /**
+     * @Route("/music/noSound", name="api_music_noSound", methods={"POST"})
+     *
+     * @SWG\RequestBody(
+     *     required=true,
+     *     @SWG\JsonContent(
+     *         example={
+     *             "noSound": true
+     *         },
+     *         @SWG\Schema (
+     *              type="object",
+     *              @SWG\Property(property="noSound", required=true, description="Hide/Show sound bars", type="boolean")
+     *         )
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return the mercure event id.",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Property(property="uuid", type="string", example="123-abc")
+     *     )
+     * )
+     * @SWG\Tag(name="Events")
+     * @Security(name="Bearer")
+     */
+    public function musicPause(HubInterface $hub, Request $request): Response
+    {
+        $body = json_decode($request->getContent(), true);
+
+        $params = [
+            'type' => self::MUSIC_NO_SOUND_EVENT_TYPE,
+            'noSound' => $body['noSound'],
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));

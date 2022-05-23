@@ -61,7 +61,9 @@ export default {
       }
     },
     changeCurrentSong(data) {
-      if (data.type == 'music') {
+      if (data.type == 'music_no_sound') {
+        this.noSound = data.noSound;
+      } else if (data.type == 'music') {
         this.author = '';
         this.song = '';
         this.noSound = data.noSound;
