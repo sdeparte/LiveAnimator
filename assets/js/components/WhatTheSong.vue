@@ -2,7 +2,7 @@
 <div class="player">
     <div class="player__card" :class="{ 'disk-changing': diskChanging }">
         <div class="player__album rotating">
-            <div class="player__albumImg" :style="{backgroundImage:`url(${albumImg})`}"></div>           
+            <div class="player__albumImg" :style="{background: albumImg}"></div>           
         </div>
         <div class="player__bars">
             <div class="player__bars__container" :class="{ 'no-sound': noSound }">
@@ -45,7 +45,7 @@
 export default {
   name: "what-the-song",
   data() {
-    return {noSound: true, albumImg: 'https://www.formica.com/fr-fr/-/media/formica/emea/products/swatch-images/f2253/f2253-swatch.jpg', author: 'Sylvain D', song: 'The silence'}
+    return {noSound: true, albumImg: 'black', author: 'Sylvain D', song: 'The silence'}
   },
   mounted() {
     this.init();

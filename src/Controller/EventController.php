@@ -215,13 +215,13 @@ class EventController extends AbstractController
      *         example={
      *             "author": "Sylvain D",
      *             "song": "The silence",
-     *             "albumImg": "https://www.formica.com/fr-fr/-/media/formica/emea/products/swatch-images/f2253/f2253-swatch.jpg",
+     *             "albumImg": "url(https://www.formica.com/fr-fr/-/media/formica/emea/products/swatch-images/f2253/f2253-swatch.jpg)",
      *             "noSound": false
      *         },
      *         @SWG\Schema (
      *              type="object",
      *              @SWG\Property(property="author", required=true, description="Author of the current music", type="string"),
-     *              @SWG\Property(property="song", required=true, description="Title of the current music", type="string"),
+     *              @SWG\Property(property="song", required=true, description="Title of the current music ('background' css property)", type="string"),
      *              @SWG\Property(property="albumImg", required=true, description="Album image of the current music", type="string"),
      *              @SWG\Property(property="noSound", required=true, description="Hide/Show sound bars", type="boolean")
      *         )
