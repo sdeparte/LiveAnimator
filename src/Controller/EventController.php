@@ -38,7 +38,7 @@ class EventController extends AbstractController
      *     required=true,
      *     @SWG\JsonContent(
      *         example={
-     *             "username": "sdeparte"
+     *             "usernames": "sdeparte, dotsu"
      *         },
      *         @SWG\Schema (
      *              type="object",
@@ -63,7 +63,7 @@ class EventController extends AbstractController
 
         $params = [
             'type' => self::FOLLOW_EVENT_TYPE,
-            'username' => $body['username'],
+            'usernames' => $body['usernames'],
         ];
 
         $result = $hub->publish(new Update(self::MERCURE_TOPIC, json_encode($params)));

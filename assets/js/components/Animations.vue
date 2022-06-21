@@ -51,7 +51,7 @@ export default {
 
             this.isHidden = false;
 
-            this.message = "Merci <span style=\"font-weight: bold;\">" + data.username + "</span> pour ton follow !";
+            this.message = "Merci à <span style=\"font-weight: bold;\">" + data.usernames + "</span> pour le follow !";
 
             this.firework.start();
 
