@@ -52,9 +52,9 @@ export default {
               this.animation = 'once';
             } else if (data.repetitions != null) {
               if (data.series != null) {
-                this.description = `${data.exerciceName} (série ${data.series}) :<br />${data.repetitions} répétision(s)`;
+                this.description = `${data.exerciceName} (série ${data.series}) :<br />${data.repetitions} répétition(s)`;
               } else {
-                 this.description = `${data.exerciceName} :<br />${data.repetitions} répétision(s)`;
+                this.description = `${data.exerciceName} :<br />${data.repetitions} répétition(s)`;
               }
 
               this.duration = '1s';
