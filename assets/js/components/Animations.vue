@@ -47,6 +47,9 @@ export default {
       } else {
         switch (data.type) {
           case 'follow':
+            var audio = new Audio('./../sound/Firework.mp3');
+            audio.play();
+
             this.animationIsRunning = true;
 
             this.isHidden = false;
@@ -68,6 +71,9 @@ export default {
             break;
 
           case 'subscribe':
+            var audio = new Audio('./../sound/Confetti.mp3');
+            audio.play();
+
             this.animationIsRunning = true;
 
             this.isHidden = false;
@@ -95,6 +101,9 @@ export default {
             break;
 
           case 'donation':
+            var audio = new Audio('./../sound/Coins.mp3');
+            audio.play();
+
             this.animationIsRunning = true;
 
             this.isHidden = false;
@@ -115,6 +124,9 @@ export default {
             break;
 
           case 'raid':
+            var audio = new Audio('./../sound/Raid.mp3');
+            audio.play();
+
             this.animationIsRunning = true;
 
             this.isHidden = false;
