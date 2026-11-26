@@ -1,6 +1,13 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
+parameters:
+    env(TRUSTED_PROXIES): ''
+
 framework:
     secret: '%env(APP_SECRET)%'
+    # Behind a reverse proxy (Traefik, Apache…): its X-Forwarded-* headers are
+    # trusted so that URLs and cookies keep the https scheme and the public host.
+    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
     #csrf_protection: true
     #http_method_override: true
 

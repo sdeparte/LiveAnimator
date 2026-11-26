@@ -54,13 +54,11 @@ Encore
     })
 
     .configureDefinePlugin(options => {
-        const env = dotenv.config();
+        // .env is optional (the Docker build has none); an environment variable
+        // wins over it, and a relative URL keeps the hub on the site's domain.
+        dotenv.config();
 
-        if (env.error) {
-            throw env.error;
-        }
-
-        options['process.env'].MERCURE_PUBLIC_URL = JSON.stringify(env.parsed.MERCURE_PUBLIC_URL);
+        options['process.env'].MERCURE_PUBLIC_URL = JSON.stringify(process.env.MERCURE_PUBLIC_URL || '/.well-known/mercure');
     })
 
     // enables Vue.js
