@@ -1,0 +1,56 @@
+# Live Animator: the Symfony application and its Mercure hub (no database).
+# Required variables (in a .env file next to this one, or in Coolify):
+#   APP_SECRET, MERCURE_JWT_SECRET, JWT_PASSPHRASE, API_USERNAME, API_PASSWORD
+# API_PASSWORD is the hashed password of the API user:
+#   docker compose run --rm app php bin/console security:encode-password
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      APP_ENV: prod
+      APP_SECRET: ${APP_SECRET:?APP_SECRET is required}
+      # Published from PHP inside the network; subscribed to by the browsers
+      # through the site's own domain (proxied by Apache to the hub). Relative,
+      # so the authorization cookie works whatever the domain of the site.
+      MERCURE_URL: http://mercure/.well-known/mercure
+      MERCURE_PUBLIC_URL: /.well-known/mercure
+      MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET:?MERCURE_JWT_SECRET is required}
+      JWT_PASSPHRASE: ${JWT_PASSPHRASE:?JWT_PASSPHRASE is required}
+      API_USERNAME: ${API_USERNAME:?API_USERNAME is required}
+      API_PASSWORD: ${API_PASSWORD:?API_PASSWORD is required}
+      # The reverse proxy in front of the container (private networks only).
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
+    ports:
+      - "127.0.0.1:${APP_PORT:-8088}:80"
+    volumes:
+      - jwt:/var/www/html/config/jwt
+    depends_on:
+      mercure:
+        condition: service_started
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  mercure:
+    image: dunglas/mercure:v0.24.2
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: ':80'
+      # Symfony signs both the published updates and the subscribers' cookie
+      # with the same secret.
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_JWT_SECRET:?MERCURE_JWT_SECRET is required}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_JWT_SECRET:?MERCURE_JWT_SECRET is required}
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  jwt:
+  mercure_data:
+  mercure_config:
